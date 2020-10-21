@@ -1,0 +1,37 @@
+this is a program that helps translate a virtual address of a variable to its physical address
+
+------------------------------------------------------------------
+
+1.Installing the Development Environment On Ubuntu, we need to run:
+------------------------------------------------------------------
+
+$ apt-get install build-essential linux-headers-uname -r
+
+------------------------------------------------------------------
+
+2.Getting Started: 
+------------------------------------------------------------------
+
+After creating your c files and writing your code we can't compile it yet We have to create a Makefile containing (in paddr's case)
+
+obj-m += paddr.o all: 
+  make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules 
+  clean: make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+  
+
+If we run “make”, it should compile your module successfully.
+
+
+Now we can insert the module to test it. To do this, run:
+
+sudo insmod paddr.ko
+------------------------------------------------------------------
+
+To see the kernel log you can run:
+------------------------------------------------------------------
+
+sudo dmesg
+
+If everything goes well you can make the module under root and run ./app
+
+PS. If you did any modification on any of the c files you have to "make clean" and then "make' again.
